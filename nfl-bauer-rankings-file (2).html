@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFL Bauer Rankings 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #1e3a8a, #dc2626);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .week-info {
+            background: linear-gradient(45deg, #059669, #10b981);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .rankings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .team-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 2px solid transparent;
+        }
+
+        .team-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            border-color: #3b82f6;
+        }
+
+        .team-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .rank {
+            background: linear-gradient(45deg, #1e3a8a, #3b82f6);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .team-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #1e3a8a;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .team-record {
+            color: #059669;
+            font-weight: bold;
+            margin-left: auto;
+            font-size: 1rem;
+        }
+
+        .movement {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .movement.up {
+            background: #dcfce7;
+            color: #059669;
+        }
+
+        .movement.down {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .movement.same {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+
+        .team-analysis {
+            color: #555;
+            line-height: 1.6;
+            margin-top: 10px;
+        }
+
+        .analysis-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .analysis-section h2 {
+            color: #1e3a8a;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .week-highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .highlight-card {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .highlight-card h3 {
+            color: #1e3a8a;
+            margin-bottom: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .special-mention {
+            background: linear-gradient(135deg, #fef3c7, #fbbf24);
+            color: #92400e;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+
+        .special-mention.thats-all {
+            background: linear-gradient(135deg, #dbeafe, #3b82f6);
+            color: #1e40af;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .rankings-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .team-header {
+                align-items: flex-start;
+            }
+            
+            .team-name {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>NFL Bauer Rankings</h1>
+            <div class="week-info">Week 2 • 2025 Season</div>
+        </div>
+
+        <div class="rankings-grid">
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">1</div>
+                    <div class="team-name">Buffalo Bills</div>
+                    <div class="team-record">2-0</div>
+                    <span class="movement same">—</span>
+                </div>
+                <div class="team-analysis">
+                    Just a simple business trip to New Jersey for the Bills. They dominated the Jets in all phases, and ran for over 200 yards against a decent front 4. James Cook looked like a guy who deserved every dollar of his contract extension, and Josh picked up where he left off against the Ravens, rushing for almost 10 YPC. I was especially impressed with the run D. Despite missing Ed Oliver, they held the Jets to only 100 yards rushing and completely shut down Breece Hall. Quick turnaround for them as they play on Thursday Night, but it is against the Dolphins so they should stroll to an easy 3-0.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">2</div>
+                    <div class="team-name">Green Bay Packers</div>
+                    <div class="team-record">2-0</div>
+                    <span class="movement up">↑ 1</span>
+                </div>
+                <div class="team-analysis">
+                    What a dominant performance against a really good Washington Team. Green Bay dominated on both sides of the ball, and this game was really never close. I was especially impressed with the speed in which the defense flew around to the football. They made Jayden look uncomfortable all night and never let the Washington offense get into a rhythm. The depth of the O-Line is also a major strength of this team. Two starters out and they seemingly didn't skip a beat. Green Bay will certainly have to clean up the penalties, but damn did they look like the most complete team in football.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">3</div>
+                    <div class="team-name">Baltimore Ravens</div>
+                    <div class="team-record">1-1</div>
+                    <span class="movement down">↓ 1</span>
+                </div>
+                <div class="team-analysis">
+                    Slowish start for the Ravens against Cleveland, but the offense, especially the passing game, found their rhythm and wound up steam rolling the Browns. Lamar did a great job of spreading the ball around, as 7 different guys caught passes. If there is one negative about the offense, it's that Derrick Henry had another fumble. Granted the Ravens did recover it, but definitely something to be aware of as the Ravens play more high leverage games. We should be in for another primetime treat next week, as they take on the Lions on Monday Night.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">4</div>
+                    <div class="team-name">Philadelphia Eagles</div>
+                    <div class="team-record">2-0</div>
+                    <span class="movement same">—</span>
+                </div>
+                <div class="team-analysis">
+                    That was a championship type win right there. Ugly, disgusting game, the offense had absolutely nothing, yet the Eagles found a way to go into Arrowhead and shut Chiefs Kingdom up. For as shaky as the offense looked, the defense looked to be in mid season, super bowl form. Howie Roseman just has a knack for drafting, and bringing in guys that make an immediate impact. Rookies Jihaad Campbell and Andrew Mukuba were outstanding, and newly signed FA Za'Darius Smith was a force up front. Very pumped up for their week 3 matchup against the Rams.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">5</div>
+                    <div class="team-name">Los Angeles Chargers</div>
+                    <div class="team-record">2-0</div>
+                    <span class="movement same">—</span>
+                </div>
+                <div class="team-analysis">
+                    Another very impressive win for the Chargers on the road against a decent Raiders team. Justin Herbert looked in complete control of the game, but what impressed me most was the defense. Yes, the Khalil Mack injury sucks, but that defense plays a physical, fast, violent brand of football and I believe they have more than enough to overcome Mack's Injury. If I had to offer a critique for one of the best teams in football it would be that they have to get better in the run game, but I trust Jim Harbaugh to get it straightened out. The Chargers have a chance to take and early strangle hold in the AFC West in week 3, as they take on the Broncos. With a win, that would move them to not only 3-0 on the year, but 3-0 in the division.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">6</div>
+                    <div class="team-name">Los Angeles Rams</div>
+                    <div class="team-record">2-0</div>
+                    <span class="movement up">↑ 7</span>
+                </div>
+                <div class="team-analysis">
+                    Welcome to Los Angeles Davante Adams. That's the guy we grew accustomed to seeing in Green Bay. Stafford looked sharp, especially for a guy who didn't get much work in the offseason/preseason. The 1-2 punch of Puka and Davante seems like it will be a nightmare for defenses to plan for, and if Stafford can stay healthy, I expect the Rams to make a deep run in the playoffs and even contend for a Super Bowl. Another 5 sacks for the defense against a pretty good Titans O-Line. GM Les Snead and DC Chris Shula deserve a lot of credit for how they have this defense playing. Can't wait to watch the heavy weight matchup against the Eagles next week.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">7</div>
+                    <div class="team-name">Tampa Bay Buccaneers</div>
+                    <div class="team-record">2-0</div>
+                    <span class="movement up">↑ 1</span>
+                </div>
+                <div class="team-analysis">
+                    That was a championship caliber win. Houston is not an easy place to play, and the Bucs waltzed in there and found a way to win a football game on the backs of Baker and that Defense. Baker Mayfield continues to be one of the bigger dogs in the league, as week in and week out he just makes winning plays. The run game was also fantasdtic, as Bucky Irving and Rachaad White combined for 135 yards on 27 carries. Special teams will absolutely need to get cleaned up moving forward, as the Bucs missed a short field goal, had a punt blocked, and allowed some massive kickoff and punt returns. Up next is the Jets, and the Bucs should cruise to 3-0.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">8</div>
+                    <div class="team-name">Detroit Lions</div>
+                    <div class="team-record">1-1</div>
+                    <span class="movement up">↑ 3</span>
+                </div>
+                <div class="team-analysis">
+                    What a perfect time for a get right game against the pathetic Bears. It was easy to tell Dan Campbell took this game incredibly personally, as he ran up the score on a horrific Bears defense. Jared Goff had all the time in the world to drop back and sling the rock, and he took full advantage, completing 82% of his passes for over 330 yards and 5 Tds. Huge matchup next week against the Ravens, and I'm super curious to see if the Lions offense is really this good, or if they just played the right team at the right time. My guess is somewhere in the middle.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">9</div>
+                    <div class="team-name">Washington Commanders</div>
+                    <div class="team-record">1-1</div>
+                    <span class="movement down">↓ 2</span>
+                </div>
+                <div class="team-analysis">
+                    Tough spot for Washington in weak two, on the road on Thursday night against one of the best teams in the NFL, so there's no need to panic, however, there were a couple glaring weaknesses that stood out. Who's going to step up and be the number two guy across from Terry? If Deebo can turn back the clock then he might be the answer, otherwise, I'm not sure that guy is on the roster. I would be calling Miami every day asking about Tyreek if I were the GM. The other weakness was the cornerback play. Lattimore got dusted all game, and it seemed like every third down the corners were unprepared to handle quick outs. Washington will be fine, Jayden will be fine, but as of now this team is a step down from the elite in the NFC.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">10</div>
+                    <div class="team-name">Seattle Seahawks</div>
+                    <div class="team-record">1-1</div>
+                    <span class="movement up">↑ 5</span>
+                </div>
+                <div class="team-analysis">
+                    This Seahawks team is going to be a problem all year long. If Sam Darnold can play decent football, then expect Seattle to win a lot of games because their defense is legit. The secondary completely shut down Pittsburgh's passing game, despite missing star cornerback Devon Witherspoon. The offense also looked great. Every single receiver averaged over 10 yards per reception, and JSN looks every bit of one of the top WRs in the league. With an easier schedule, a 5-2 or even 6-1 start is not out of the question.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">11</div>
+                    <div class="team-name">Indianapolis Colts</div>
+                    <div class="team-record">2-0</div>
+                    <span class="movement up">↑ 14</span>
+                </div>
+                <div class="team-analysis">
+                    Ok I will admit that I am probably a bit higher on the Colts than I should be, but hanging 29 on a very solid Denver defense should not be ignored. For the second game in a row, the offense DID NOT punt. That is the first time in NFL history a team did not punt through the first two games of the season. Jonathan Taylor was explosive, and looked like one of the top RBs in the league. Tyler Warren continues to impress and will be a matchup nightmare for every defense. Consider me super impressed with this team. Sure Daniel Jones can turn back into Giants Daniel Jones, but I am going to bet that Shane Steichen and this offense line will keep do enough to keep DJ playing at a high level.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">12</div>
+                    <div class="team-name">Denver Broncos</div>
+                    <div class="team-record">1-1</div>
+                    <span class="movement down">↓ 3</span>
+                </div>
+                <div class="team-analysis">
+                    I'm very confused about the start to the Broncos year. On the bright side, Bo Nix looked much better than he did in week 1. It still kind of looks like he's rushing some throws, but he played more than well enough for the Broncos to win that game. Now to the defense. What the heck is going on over there. They had no answer for the Colts rushing attack as the front four got dominated in the trenches. Even Patrick Surtain looked mortal, as he gave up a key 3rd down conversion against Alec Pierce to set up the game winning field goal. Huge matchup next week against the Chargers in a game that could go a long way in deciding the fate of the AFC West.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">13</div>
+                    <div class="team-name">San Francisco 49ers</div>
+                    <div class="team-record">2-0</div>
+                    <span class="movement up">↑ 1</span>
+                </div>
+                <div class="team-analysis">
+                    Going across the country to win a football game is never easy, especially while missing your starting QB and superstar TE. Now, this win did come against the Saints, so I'm not that impressed, but 2-0 is 2-0. I'm slightly concerned with the defense. They made Spencer Rattler look like a competent QB, so they will need to step up their game if the 49ers are going to have any chance at remaining in the hunt while dealing with some of the key injuries. Good news for them is they have two very winnable games coming up against the Cardinals and Jags, and both of them are at home, so a 4-0 start is certainly in the cross hairs.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">14</div>
+                    <div class="team-name">Dallas Cowboys</div>
+                    <div class="team-record">1-1</div>
+                    <span class="movement up">↑ 3</span>
+                </div>
+                <div class="team-analysis">
+                    So, Javonte Williams turned into Emmit Smith? I'm not going to go that far, but I don't think anyone expected him to look this good through the first two games of the season. Rushing for 5.4 YPC against a very good Giants front 4 is no small feat. Dak also looked really good and I still believe he's shaking some of the rust off from not playing football for a long time. However, as good as the offense looked, the defense was equally as terrible. This secondary is literal dog shit. Sure, Daron Bland being out played a factor, but they let Russ throw for 450 yards!! Eberlfus better figure something out, or he's going to have a very short tenure as Dallas' DC. Good news for the Cowboys is they have the Bears next week, so they should cakewalk to 2-1.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">15</div>
+                    <div class="team-name">Kansas City Chiefs</div>
+                    <div class="team-record">0-2</div>
+                    <span class="movement down">↓ 9</span>
+                </div>
+                <div class="team-analysis">
+                    Time to panic? Kind of. Yes, the Chiefs are missing some key weapons on the offense, but that game against Philly is a game we're used to seeing Patrick and Andy squeak out. The defense looked good, but I am HIGHLY concerned with the running game and offensive line. Isiah Pacheco looks like he's running in quicksand, and Kareem hunt doesn't look any better. The Chiefs will need Patrick to be superman to keep this team above water, but even that might not be enough. I'm going to call my shot and say they lose to the Giants next week on Sunday Night, and when they do, we will go into full panic mode.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">16</div>
+                    <div class="team-name">Atlanta Falcons</div>
+                    <div class="team-record">1-1</div>
+                    <span class="movement up">↑ 3</span>
+                </div>
+                <div class="team-analysis">
+                    Very solid win for Atlanta. Winning on the road is never easy, especially in prime time, and the Falcons went into Minnesota and played a very complete game. Michael Penix continues to look very solid, and Bijan seems like the early front runner for OPOY. I was also impressed with the defense, especially the 4 rookies. The young guns on that D combined for 1.5 sacks and 2 picks en route to an outstanding performance against the Vikings. The schedule isn't the hardest, so if they can squeak out a couple more games than expected, they will be in close contention all year for the NFC South.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">17</div>
+                    <div class="team-name">Arizona Cardinals</div>
+                    <div class="team-record">2-0</div>
+                    <span class="movement up">↑ 4</span>
+                </div>
+                <div class="team-analysis">
+                    What a weird football team. Tough to tell how good or how bad the Cardinals are because their first two games have been against bottom tier opponents, but hey they have won both games so give credit where it's due. Had they taken care of business in a convincing manor against Carolina they probably would have been higher on this list, but in typical Cardinals fashion they let the Panthers back in the game and almost had a historic loss. Also, what is up with MHJr? I thought this guy was supposed to be matchup proof. He needs to be much more consistent if the Cardinals are going to have any chance at staying relevant this season.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">18</div>
+                    <div class="team-name">Minnesota Vikings</div>
+                    <div class="team-record">1-1</div>
+                    <span class="movement down">↓ 6</span>
+                </div>
+                <div class="team-analysis">
+                    For as high as the week 1 win against the Bears must have felt, this loss probably felt equally as terrible. 6 points at home against an average Atlanta D.. That is unacceptable. JJ McCarthy did not look good at all, and I actually think the ankle injury could be a blessing for him. Carson Wentz might even be a short term improvement for the Vikings. My bigger concern for them is all the injuries that are starting to pile up. Starting center Ryan Kelly left with a concussion, as well as backup left tackle Justin Skule, meaning the Vikings could be down to their third string left tackle. On the defensive end, they were already without starting linebacker Andrew Van Ginkle, and now his replacement has a knee injury that could keep him out multiple weeks. The defense is currently the strength of this team, and their depth will certainly be tested in the next couple of weeks.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">19</div>
+                    <div class="team-name">Cincinnati Bengals</div>
+                    <div class="team-record">2-0</div>
+                    <span class="movement down">↓ 9</span>
+                    <span class="special-mention thats-all">That'll be all</span>
+                </div>
+                <div class="team-analysis">
+                    Squeaking out the win was nice, but the biggest story of this game, and maybe of the NFL season so far is the injury to Joe Burrow. Backup QB Jake Browning has proven he can be somewhat reliable, but make no mistake, the Bengals have absolutely no shot at anything this season with Joe sidelined for 3 months. I would expect them to explore a trade for Jameis or even Kirk Cousins in an effort to buy them time for Joe to get back, but this schedule is ruthless, and they could be staring at 5-9 by the time Joe could play again this season. I feel for Bengals fans, but that'll be all.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">20</div>
+                    <div class="team-name">Pittsburgh Steelers</div>
+                    <div class="team-record">1-1</div>
+                    <span class="movement down">↓ 2</span>
+                </div>
+                <div class="team-analysis">
+                    Week 2 is a little early to hit the panic meter, but I' m halfway there on this Steelers defense. For the second week in a row, they got absolutely torched on the ground, letting Kenneth Walker run all over them to the tune of 8 YPC. The offense also came back to earth. I think it's a combination of not being as good as week 1 told us, and the Seattle D being really really good. The lone bright spot for the Steelers' offense was Jaylen Warren, who had over 130 all purpose yards, but it ended there. The WRs were held 5 total catches, and Rodgers did not look good. Seems like we're in for a classic steelers season of 8-9 or 9-8, but I have no real hope for this team to go anywhere with the defense in the shape it's currently in.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">21</div>
+                    <div class="team-name">Jacksonville Jaguars</div>
+                    <div class="team-record">1-1</div>
+                    <span class="movement down">↓ 5</span>
+                </div>
+                <div class="team-analysis">
+                    Losing this game is the most Jaguars thing of all time. They won the turnover battle, and the other teams star QB was out most of the game with an injury, yet they still found a way to lose. There were definitely some bright spots. Travis Etienne had another very effective game, and rookie Bhayshul Tuten looked explosive out of the backfield. There were also some not so bright spots. Trevor Lawrence had the typical Trevor Lawrence game. Had some solid stats, looked decent on some throws, but really choppy on others. The Jags also need a hell of a lot more production out of Brian Thomas and Travis Hunter if they plan on contending for the AFC South. This team is real solid on paper, but they will need their star players to be a hell of a lot more consistent if they want to be taken seriously.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">22</div>
+                    <div class="team-name">Houston Texans</div>
+                    <div class="team-record">0-2</div>
+                    <span class="movement down">↓ 2</span>
+                </div>
+                <div class="team-analysis">
+                    The concerns I voiced last week reared their ugly head again on Monday night. This Team is in some trouble. The defense is super bowl caliber, but this offense has nothing. They can't run the ball, and yes I know Nick Chubb ran for a 25 yard touchdown, but that was an outlier. CJ also didn't look good. There were too many wild drop backs and too many missed throws for a guy who should be taking a huge leap this year. They also need to find a way to be much more effective with Nico Collins. Yes, he had a sick touchdown grab, but he only had 3 receptions on 9 targets. That's not going to cut it. It's a shame to waste a super bowl caliber defense, but it seems like that's exactly what the Texans are going to do this year.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">23</div>
+                    <div class="team-name">Las Vegas Raiders</div>
+                    <div class="team-record">1-1</div>
+                    <span class="movement down">↓ 1</span>
+                </div>
+                <div class="team-analysis">
+                    Maybe this team isn't as good as I thought after 1 week. Maybe they played one of the best teams in football and were totally outmatched. I think this Raiders team is better than what they showed on Monday Night, but they need to rely much more on the run game moving forward. Ashton was outstanding. Trucking guys, hitting holes, making nice cuts, he looked every bit the best rookie RB in the league. Geno on the other hand, had maybe his worst game in 4 years. Bad decision making and inaccurate throws plagued him from the very first snap. Clean it up Geno. Now the Raiders must go across the country on a short week to play Washington. Tough, tough spot.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">24</div>
+                    <div class="team-name">New England Patriots</div>
+                    <div class="team-record">1-1</div>
+                    <span class="movement up">↑ 3</span>
+                </div>
+                <div class="team-analysis">
+                    Nice time for a bounce back game against an atrocious Miami defense. Drake Maye was fantastic, completing over 80% of his passes for 2 touchdowns and adding another TD on the ground. That's the type of performance that will have people questioning if he's actually the best QB from the 2024 class. The defense still needs a lot of work, but there is a chance super star CB Christian Gonzalez is back for week 3, so that should really help. Interesting matchup next week with the Steelers coming into town, and I would expect the Patriots to squeak out a win at home.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">25</div>
+                    <div class="team-name">New York Giants</div>
+                    <div class="team-record">0-2</div>
+                    <span class="movement up">↑ 4</span>
+                </div>
+                <div class="team-analysis">
+                    The Giants have to feel like they let this one slip away. For as bad as Sussy Russy was in week 1, he was that good this week (outside of a costly turnover late in the game). A major part of that improvement was realizing that it's not illegal to throw the ball to Malik Nabers. News flash Russ, just chuck it up to that guy and good things will happen. This team is better than their 0-2 record would dictate, and they're actually my upset pick of week 3 as I think the defensive line will be too much for an average Chiefs offensive line.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">26</div>
+                    <div class="team-name">Carolina Panthers</div>
+                    <div class="team-record">0-2</div>
+                    <span class="movement up">↑ 4</span>
+                </div>
+                <div class="team-analysis">
+                    Very tough start to this game for Bryce Young, but after the first half he finally started to pick up where he left off at the end of last year. Now, throwing 55 times is not the recipe for success, but was hard to fault them as they got down big early. That said, I fully endorse getting the ball to Tet as much as possible. That guy is an absolute stud. I remember in the offseason when so many analysts said he couldn't run routes or get separation. Morons. Guy is a stud and will be a top 10 WR in this league for a long time. At the end of the day, the Panthers don't have enough on the defensive side of the ball to win many games, but at least the offense started to get its footing.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">27</div>
+                    <div class="team-name">New York Jets</div>
+                    <div class="team-record">0-2</div>
+                    <span class="movement down">↓ 4</span>
+                </div>
+                <div class="team-analysis">
+                    Big yikes for the Jets. Where's the tenacity on both sides of the ball? Aaron Glenn certainly didn't see any and bailed his players out by telling the media that "he didn't have the guys ready to play." That's a feeling all too familiar for this Jets team, and they need to figure out their identity in a hurry. I feel for Jets fans as I know what they're going through by having Justin Fields as their QB. One week he looks like prime Mike Vick, and the next week he posts the worst QBR maybe of all time. Welcome to the Justin Fields experiment Jets fans, it's going to be a long year.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">28</div>
+                    <div class="team-name">Cleveland Browns</div>
+                    <div class="team-record">0-2</div>
+                    <span class="movement down">↓ 2</span>
+                </div>
+                <div class="team-analysis">
+                    Similar to my criticism of the Giants last week, I'm not sure what the point of Joe Flacco is if he's going to play like dogshit. Probably time to give Dillon Gabriel and even Shadeur a shot. On the bright side, 2nd round pick Quinshon Judkins looked very solid, rushing 10 times for 61 yards. Not sure what else to say about Cleveland as it seems like it's going to be another one of those years.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">29</div>
+                    <div class="team-name">Tennessee Titans</div>
+                    <div class="team-record">0-2</div>
+                    <span class="movement down">↓ 1</span>
+                </div>
+                <div class="team-analysis">
+                    Definitely some bright spots for the Titans against an outstanding Rams team. Cam Ward looked solid, and he seems to have a terrific connection with fellow rookie Elic Ayomanor. Tony pollard also ran the ball pretty effectively, which is always a good sign for a rookie QB. I was a bit disappointed in the offensive line. Yes, the Rams pash rush is good, but they need to do a much better job of keeping Cam upright. The Titans should continue to remain frisky, but they simply don't have enough to win many games.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">30</div>
+                    <div class="team-name">Chicago Bears</div>
+                    <div class="team-record">0-2</div>
+                    <span class="movement down">↓ 6</span>
+                </div>
+                <div class="team-analysis">
+                    LOL. Where to even begin. I'm sure I will have plenty of other opportunities this year to critique Caleb and Ben Johnson, but today is not that day. Instead, let's talk about the defense. Yes, the 5th highest paid defense in the NFL that has ZERO pass rush and ZERO depth. Montez Sweat, what is it you do here? That guy freaking SUCKS. What a waste of space and dollars. Tyrique Stevenson, a guy that should have been cut last year, what is it that you do here? Run cardio all game? Guard someone. The injuries to Jaylon Johnson and T.J Edwards really suck, and will leave this defense even more vulnerable moving forward. The Cowboys come into town next week, and while they should get dominated on paper, I would hope the defense can have an ounce of pride and show they want to play football for the Bears.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">31</div>
+                    <div class="team-name">Miami Dolphins</div>
+                    <div class="team-record">0-2</div>
+                    <span class="movement same">—</span>
+                </div>
+                <div class="team-analysis">
+                    Some major improvement on offense for the Dolphins, which is a step in the right direction. Tyreek, Achane, and Waddle all looked explosive, and Tua spread the ball around nicely despite missing some open throws. The real issue on this team is, and will continue to be the defense. That defensive backfield is one of the worst units in football, hampered by injuries and just an overall lack of talent. Poor Mike McDaniel knows his tenure in Miami is coming to an end. That's the only way to explain the creepy quote he offered the press post game, saying, "To win games, you have to win the game and not lose the game." Cant blame him for thinking it's the end of the road. They have to go into Buffalo on Thursday Night and get embarrassed in primetime. I'll give a greater than 50% chance he gets fired Friday morning.
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-header">
+                    <div class="rank">32</div>
+                    <div class="team-name">New Orleans Saints</div>
+                    <div class="team-record">0-2</div>
+                    <span class="movement same">—</span>
+                </div>
+                <div class="team-analysis">
+                    As I said last week, the Saints simply don't have enough good players to win many games, but hey, at least they fought hard. I don't believe Spencer Rattler is the guy of the future there, but at least he played decent. Good luck to the Saints in week 3, as they have to travel across the country to play Seattle.
+                </div>
+            </div>
+        </div>
+
+        <div class="analysis-section">
+            <h2>Week 2 Analysis</h2>
+            <p>Week 2 brought some major shakeups and clarified who the real contenders are. The Colts made history by not punting through two games, while the Chiefs' struggles became impossible to ignore. Several teams showed their true colors in crucial road tests.</p>
+            
+            <div class="week-highlights">
+                <div class="highlight-card">
+                    <h3>Biggest Riser</h3>
+                    <p><strong>Indianapolis Colts (+14)</strong> - I think this Colts team is kind of legit. The offensive line is fantastic, Jonathan Taylor looks like a top RB, and Tyler Warren looks like a top TE. As long as Daniel Jones stays within himself and doesn't turn the ball over, this team will compete for the AFC South.</p>
+                    <p><strong>Honorary Mention: LA Rams (+7)</strong> - The Rams are a team nobody is going to want to play come January. Elite head coach, hall of fame QB, elite defense, and 2 stud WRs. If they can stay healthy then it's super bowl or bust this season.</p>
+                </div>
+                
+                <div class="highlight-card">
+                    <h3>Biggest Faller</h3>
+                    <p><strong>Cincinnati Bengals (-9)</strong> - Really tough break for the Bengals and for Joe Burrow. Any time your franchise QB goes out with an injury it sets everything back, but especially when he's out for 3 months. The schedule is grueling, and I don't see Jake Browning doing enough to keep the Bengals above water while Burrow heals from a turf toe injury.</p>
+                    <p><strong>Honorary Mention: Kansas City Chiefs (-9)</strong> - The run game is a major concern. I will go on record and say I think the Giants will upset the Chiefs on Sunday Night and when that happens, it will be time to go into full panic mode.</p>
+                </div>
+                
+                <div class="highlight-card">
+                    <h3>Next Week Watch</h3>
+                    <p><strong>Rams @ Eagles</strong> - A rematch of the divisional round last year, and it feels like these two teams are destined to meet again the playoffs. This should be an outstanding game that I think the Rams will squeak out.</p>
+                </div>
+                
+                <div class="highlight-card">
+                    <h3>Division Battle</h3>
+                    <p><strong>Broncos @ Chargers</strong> - Feels like a game that will have major ramifications for the AFC West. If the Chargers win, they move to 3-0 while the Broncos will move to 1-2. On the other hand, with a Broncos victory both teams go to 2-1, opening up the division for a season long battle. Sean Peyton v Jim Harbaugh. Saddle up. Give me the Chargers in a low scoring game.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Bauer Rankings updated weekly • Last updated: September 17, 2025</p>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactive features
+        document.addEventListener('DOMContentLoaded', function() {
+            const teamCards = document.querySelectorAll('.team-card');
+            
+            teamCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    // Could expand to show more detailed analysis
+                    this.style.transform = this.style.transform === 'scale(1.02)' ? 'scale(1)' : 'scale(1.02)';
+                });
+            });
+
+            // Add a subtle animation to movement indicators
+            const movements = document.querySelectorAll('.movement');
+            movements.forEach(movement => {
+                if (movement.classList.contains('up')) {
+                    movement.style.animation = 'bounce 0.6s ease-in-out infinite alternate';
+                } else if (movement.classList.contains('down')) {
+                    movement.style.animation = 'shake 0.6s ease-in-out infinite';
+                }
+            });
+        });
+
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes bounce {
+                from { transform: translateY(0); }
+                to { transform: translateY(-3px); }
+            }
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-2px); }
+                75% { transform: translateX(2px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
